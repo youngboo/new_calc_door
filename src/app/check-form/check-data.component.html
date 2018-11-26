@@ -1,0 +1,233 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="ui container align center">
+
+
+<form [hidden]="data" class="ui form" (ngSubmit)="onSubmit(checkData.height,checkData.width,checkData.kai,checkData.kind,checkData.color)" #checkData="ngForm">
+  <div class="fields">
+    <div class="field">
+      <label for="height">高(mm)</label>
+      <input id="height" required [(ngModel)]="checkData.height" name="height"  type="text" #height="ngModel" placeholder="高">
+      <div [hidden]="height.valid || height.pristine"
+           class="alert alert-danger">
+        Name is required
+      </div>
+    </div>
+    <div class="field">
+      <label  for="width">宽(mm)</label>
+      <input id="width" required [(ngModel)]="checkData.width" name="width" type="text" placeholder="宽" #width="ngModel">
+    </div>
+    <div class="field">
+      <label for="kai">几开</label>
+      <select id="kai"  class="ui fluid dropdown" required [(ngModel)]="checkData.kai"  name="kai" type="text" placeholder="几开" #kai="ngModel">
+        <option *ngFor="let kai of kaiNum" [value]="kai">{{kai}}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="kind">版型</label>
+      <select id="kind" class="ui fluid dropdown" [(ngModel)]="checkData.kind" name="kind" #kind="ngModel" required placeholder="类型">
+        <option *ngFor="let kind of kinds" [value]="kind.id">{{kind.name}}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="color">颜色</label>
+      <select id="color" class="ui fluid dropdown" [(ngModel)]="checkData.color" name="color" #color="ngModel" required placeholder="颜色">
+        <option *ngFor="let color of colorArray" [value]="color.id">{{color.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <label  for="name">客户名</label>
+      <input id="name" required [(ngModel)]="checkData.client" name="client" type="text" placeholder="客户名" #client="ngModel">
+    </div>
+  </div>
+  <div class="field">
+    <button type="submit" class="ui button" [disabled]="!checkData.form.valid">确认</button>
+  </div>
+</form>
+<div *ngIf="data">
+  <h2 class="ui center aligned icon header">下料单</h2>
+  <table class="ui celled striped table">
+    <thead>
+      <tr>
+        <th colspan="4">
+          基本信息：{{data.height}}mm*{{data.width}}mm----{{checkData.kai}}开----{{kinds[checkData.kind].name}}({{colorArray[checkData.colorId].name}})
+        </th>
+      </tr>
+      <tr>
+        <th class="four wide">
+          客户:{{checkData.client}}
+        </th>
+        <th class="right aligned collapsing four wide">{{getDate()}}</th>
+        <th class="right aligned collapsing eight wide" colspan="2">
+          <div class="ui input">
+            <textarea placeholder="备注"></textarea>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+   <tr *ngFor="let model of data.materialsArray">
+
+      <td class="collapsing">
+        {{model.name}}
+      </td>
+      <td>{{model.height}}mm</td>
+      <td class="right aligned collapsing">{{model.num}}{{model.unit}}</td>
+    </tr>
+    <!-- <tr *ngFor="let model of data.materialsArray">
+  <td class="collapsing">
+    主料
+  </td>
+  <td class="collapsing">
+    {{model.name}}
+  </td>
+  <td>{{model.height}}mm</td>
+  <td class="right aligned collapsing">{{model.num}}{{model.unit}}</td>
+</tr> -->
+    <tr>
+      <td colspan="2">
+        <table class="ui four column celled table">
+          <thead>
+            <tr>
+              <th>料名</th>
+              <th>尺寸</th>
+              <th class="right aligned collapsing">数量</th>
+              <th>已准备</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td class="collapsing">
+                轨道
+              </td>
+              <td>{{data.guidao.height}}mm</td>
+              <td class="right aligned collapsing">{{data.guidao.num}}个</td>
+              <td>
+                <input type="checkbox">
+              </td>
+
+            </tr>
+            <tr>
+              <td class="collapsing">
+                竖料
+              </td>
+              <td>{{data.shuliao.height}}mm</td>
+              <td class="right aligned collapsing">{{data.shuliao.num}}个</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                上下方
+              </td>
+              <td>{{data.shangxiafang.height}}mm</td>
+              <td class="right aligned collapsing">{{data.shangxiafang.num}}{{data.shangxiafang.unit}}</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                边封
+              </td>
+              <td>{{data.bianfeng.height}}mm</td>
+              <td class="right aligned collapsing">{{data.bianfeng.num}}个</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr *ngIf="data.boli">
+              <td class="collapsing">
+                玻璃
+              </td>
+              <td>{{data.boli.height}}mm*{{data.boli.width}}mm</td>
+              <td class="right aligned collapsing">{{data.boli.num}}片</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr *ngIf="data.banzi">
+              <td class="collapsing">
+                板子
+              </td>
+              <td>{{data.banzi.height}}mm*{{data.banzi.width}}mm</td>
+              <td class="right aligned collapsing">{{data.banzi.num}}张</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td colspan="2">
+        <table class="ui four column celled table">
+          <thead>
+            <tr>
+              <th>料名</th>
+              <th>尺寸</th>
+              <th class="right aligned collapsing">数量</th>
+              <th>已准备</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="collapsing">
+                堵头
+              </td>
+              <td>16A(15mm*18mm)</td>
+              <td class="right aligned collapsing">-(根据花型确定数量)</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                铝条
+              </td>
+              <td>1800*700(16A)</td>
+              <td class="right aligned collapsing">2套</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                铝条
+              </td>
+              <td>1800*700(16A)</td>
+              <td class="right aligned collapsing">2套</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                铝条
+              </td>
+              <td>1800*700(16A)</td>
+              <td class="right aligned collapsing">2套</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                铝条
+              </td>
+              <td>1800*700(16A)</td>
+              <td class="right aligned collapsing">2套</td>
+              <td class="right aligned collapsing">
+                <input type="checkbox">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+  </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>

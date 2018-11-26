@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+  <script src="../../assets/js/artisan-min.js"></script>
+
+</head>
+<body>
+  <div class="ui container">
+    <canvas id="canvas" width="700" height="800">
+      次浏览器不支持canvas
+    </canvas>
+  </div>
+</body>
+<script>
+  window.onload = function(){
+    artisan.drawCircle('canvas', 150, 150, 30, '#809CA7');
+  }
+</script>
+</html>

@@ -1,21 +1,37 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+{{diagnostic}}
+<form class="ui form" #CheckData="ngForm">
+  <div class="field">
+    <label for="height">高</label>
+    <input id="height" required [(ngModel)]="CheckData.height" name="height"  type="text" [value]="checkData.height">
+  </div>{{checkData.height}}
+  <div class="field">
+    <label  for="height">宽</label>
+    <input id="weight" required [(ngModel)]="CheckData.weight" name="weight" type="text" placeholder="宽" #spy>
+  <br>TODO: remove this: {{spy.className}}
+  </div>
+  <div class="field">
+    <label for="kai">几开</label>
+    <input id="kai" required [(ngModel)]="CheckData.kai"  name="kai" type="text" placeholder="几开">
+  </div>
+  <div class="field">
+    <label for="kind">版型</label>
+    <select id="kind" class="ui fluid dropdown" required>
+      <option *ngFor="let kind of kinds" [value]="kind.id">{{kind.name}}</option>
+    </select>
+  </div>
+</form>
 
-<router-outlet></router-outlet>
+<div class="segment">
+  <div class="ui button basic grey" (click)="onSelect()">确认</div>
+</div>
+<table>
+  <th>版型</th>
+  <th>数量</th>
+  <th>长度</th>
+  <tr>
+    <td>边封</td>
+    <td>{{chicun?chicun.bianfeng:0}}</td>
+    <td>1.4</td>
+  </tr>
+</table>
